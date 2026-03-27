@@ -30,11 +30,11 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 
 	if [ -z "$(ls -A 'vendor/' 2>/dev/null)" ]; then
 		composer install --prefer-dist --no-progress --no-interaction
-
-		echo 'Configure trusted proxies'
-		sed -i '/^###< symfony\/framework-bundle ###/i TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR' .env
-		sed -i "/secret:/a\\    trusted_proxies: '%env(TRUSTED_PROXIES)%'" config/packages/framework.yaml
 	fi
+
+	echo 'Configure trusted proxies'
+	sed -i '/^###< symfony\/framework-bundle ###/i TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR' .env
+	sed -i "/secret:/a\\    trusted_proxies: '%env(TRUSTED_PROXIES)%'" config/packages/framework.yaml
 
 	# Display information about the current project
 	# Or about an error in project initialization

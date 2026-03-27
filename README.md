@@ -1,3 +1,11 @@
+# Symfony Docker with Traefik
+
+This fork adds enough to run Symfony Docker with Traefik
+
+```console
+TRAEFIK_NETWORK=your-traefik-network docker compose up --wait
+```
+
 # Symfony Docker
 
 A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
