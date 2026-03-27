@@ -14,10 +14,6 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 		cd -
 		rm -Rf tmp/
 
-		# Add TRUSTED_PROXIES variable to .env file
-		sed -i '/^###< symfony\/framework-bundle ###/i TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR' .env
-		sed -i "/secret:/a\\    trusted_proxies: '%env(TRUSTED_PROXIES)%'" config/packages/framework.yaml
-
 		composer require "php:>=$PHP_VERSION"
 		composer config --json extra.symfony.docker 'true'
 
@@ -34,6 +30,10 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 
 	if [ -z "$(ls -A 'vendor/' 2>/dev/null)" ]; then
 		composer install --prefer-dist --no-progress --no-interaction
+
+		echo 'Configure trusted proxies'
+		sed -i '/^###< symfony\/framework-bundle ###/i TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR' .env
+		sed -i "/secret:/a\\    trusted_proxies: '%env(TRUSTED_PROXIES)%'" config/packages/framework.yaml
 	fi
 
 	# Display information about the current project
