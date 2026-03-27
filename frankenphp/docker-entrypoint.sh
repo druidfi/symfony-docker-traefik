@@ -32,9 +32,12 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 		composer install --prefer-dist --no-progress --no-interaction
 	fi
 
+	###> druidfi/symfony-docker-traefik ###
 	echo 'Configure trusted proxies'
 	sed -i '/^###< symfony\/framework-bundle ###/i TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR' .env
 	sed -i "/secret:/a\\    trusted_proxies: '%env(TRUSTED_PROXIES)%'" config/packages/framework.yaml
+	sed -i '/^\t###> druidfi\/symfony-docker-traefik ###/,/^\t###< druidfi\/symfony-docker-traefik ###/d' frankenphp/docker-entrypoint.sh
+	###< druidfi/symfony-docker-traefik ###
 
 	# Display information about the current project
 	# Or about an error in project initialization
